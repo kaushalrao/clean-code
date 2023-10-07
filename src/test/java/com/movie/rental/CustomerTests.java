@@ -7,12 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CustomerTest {
     @Test
     void shouldGenerateStatement() {
-        Customer customer = new Customer("ABC");
-        customer.addRental(new Rental(new Movie("Movie-1", Movie.REGULAR), 4));
-        customer.addRental(new Rental(new Movie("Movie-2", Movie.REGULAR), 1));
-        customer.addRental(new Rental(new Movie("Movie-3", Movie.CHILDRENS), 5));
-        customer.addRental(new Rental(new Movie("Movie-4", Movie.CHILDRENS), 2));
-        customer.addRental(new Rental(new Movie("Movie-5", Movie.NEW_RELEASE), 3));
+        Rentals rentals = new Rentals();
+        rentals.add(new Rental(new Movie("Movie-1", Movie.REGULAR), 4));
+        rentals.add(new Rental(new Movie("Movie-2", Movie.REGULAR), 1));
+        rentals.add(new Rental(new Movie("Movie-3", Movie.CHILDRENS), 5));
+        rentals.add(new Rental(new Movie("Movie-4", Movie.CHILDRENS), 2));
+        rentals.add(new Rental(new Movie("Movie-5", Movie.NEW_RELEASE), 3));
+
+        Customer customer = new Customer("ABC", rentals);
 
         assertEquals("Rental Record for ABC\n" +
                 "\tMovie-1\t5.0\n" +
@@ -26,12 +28,14 @@ class CustomerTest {
 
     @Test
     void shouldGenerateHTMLStatement() {
-        Customer customer = new Customer("ABC");
-        customer.addRental(new Rental(new Movie("Movie-1", Movie.REGULAR), 4));
-        customer.addRental(new Rental(new Movie("Movie-2", Movie.REGULAR), 1));
-        customer.addRental(new Rental(new Movie("Movie-3", Movie.CHILDRENS), 5));
-        customer.addRental(new Rental(new Movie("Movie-4", Movie.CHILDRENS), 2));
-        customer.addRental(new Rental(new Movie("Movie-5", Movie.NEW_RELEASE), 3));
+        Rentals rentals = new Rentals();
+        rentals.add(new Rental(new Movie("Movie-1", Movie.REGULAR), 4));
+        rentals.add(new Rental(new Movie("Movie-2", Movie.REGULAR), 1));
+        rentals.add(new Rental(new Movie("Movie-3", Movie.CHILDRENS), 5));
+        rentals.add(new Rental(new Movie("Movie-4", Movie.CHILDRENS), 2));
+        rentals.add(new Rental(new Movie("Movie-5", Movie.NEW_RELEASE), 3));
+        Customer customer = new Customer("ABC", rentals);
+
 
         assertEquals("<h1>Rental Record for <b>ABC</b></h1></br><ul><li>Movie-1&nbsp;5.0</li><li>Movie-2&nbsp;2.0</li><li>Movie-3&nbsp;4.5</li><li>Movie-4&nbsp;1.5</li><li>Movie-5&nbsp;9.0</li></ul>Amount owed is <b>22.0</b><br/>You earned <b>6</b> frequent renter points", customer.htmlStatement());
     }

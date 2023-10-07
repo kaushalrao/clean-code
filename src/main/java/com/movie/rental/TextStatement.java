@@ -1,18 +1,13 @@
 package com.movie.rental;
 
-import java.util.List;
-
 class TextStatement {
 
     private final String name;
-    private final double totalAmount;
-    private final int totalFrequentRenterPoints;
-    private final List<Rental> rentals;
 
-    public TextStatement(double totalAmount, int totalFrequentRenterPoints, List<Rental> rentals, String name) {
+    private final Rentals rentals;
+
+    public TextStatement(Rentals rentals, String name) {
         this.name = name;
-        this.totalAmount = totalAmount;
-        this.totalFrequentRenterPoints = totalFrequentRenterPoints;
         this.rentals = rentals;
     }
 
@@ -27,7 +22,7 @@ class TextStatement {
 
     private String body() {
         String result = "";
-        for (Rental rental : rentals) {
+        for (Rental rental : rentals.getAll()) {
             result += "\t" + rental.getMovie().getTitle() + "\t" +
                     rental.amount() + "\n";
         }
@@ -36,8 +31,8 @@ class TextStatement {
 
     private String footer() {
         String result = "";
-        result += "Amount owed is " + totalAmount + "\n";
-        result += "You earned " + totalFrequentRenterPoints
+        result += "Amount owed is " + rentals.getTotalAmount() + "\n";
+        result += "You earned " + rentals.getTotalFrequentRenterPoints()
                 + " frequent renter points";
         return result;
     }

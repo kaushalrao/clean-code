@@ -1,17 +1,11 @@
 package com.movie.rental;
 
-import java.util.List;
-
 class HtmlStatement {
     private final String name;
-    private final double totalAmount;
-    private final int totalFrequentRenterPoints;
-    private final List<Rental> rentals;
+    private final Rentals rentals;
 
-    public HtmlStatement(double totalAmount, int totalFrequentRenterPoints, List<Rental> rentals,String name) {
+    public HtmlStatement(Rentals rentals, String name) {
         this.name = name;
-        this.totalAmount = totalAmount;
-        this.totalFrequentRenterPoints = totalFrequentRenterPoints;
         this.rentals = rentals;
     }
 
@@ -26,7 +20,7 @@ class HtmlStatement {
     private String htmlBody() {
         String body = "";
         body += "<ul>";
-        for (Rental rental : rentals) {
+        for (Rental rental : rentals.getAll()) {
             body += "<li>" + rental.getMovie().getTitle() + "&nbsp;" + rental.amount() + "</li>";
         }
         body += "</ul>";
@@ -34,8 +28,8 @@ class HtmlStatement {
     }
 
     private String htmlFooter() {
-        return "Amount owed is <b>" + totalAmount + "</b><br/>" +
-                "You earned <b>" + totalFrequentRenterPoints
+        return "Amount owed is <b>" + rentals.getTotalAmount() + "</b><br/>" +
+                "You earned <b>" + rentals.getTotalFrequentRenterPoints()
                 + "</b> frequent renter points";
     }
 }
