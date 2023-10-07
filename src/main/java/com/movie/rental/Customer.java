@@ -20,29 +20,11 @@ public class Customer {
     }
 
     public String statement() {
-        return header() + body() + footer();
+        return new TextStatement(getTotalAmount(), getTotalFrequentRenterPoints(), rentals, name).generate();
     }
 
-    private String footer() {
-        String result = "";
-        result += "Amount owed is " + getTotalAmount() + "\n";
-        result += "You earned " + getTotalFrequentRenterPoints()
-                + " frequent renter points";
-        return result;
-    }
-
-    private String body() {
-        String result = "";
-        for (Rental rental : rentals) {
-            result += "\t" + rental.getMovie().getTitle() + "\t" +
-                    rental.amount() + "\n";
-        }
-        return result;
-    }
-
-    private String header() {
-        String result = "Rental Record for " + name + "\n";
-        return result;
+    public String htmlStatement() {
+        return new HtmlStatement(getTotalAmount(), getTotalFrequentRenterPoints(), rentals, name).generate();
     }
 
     private int getTotalFrequentRenterPoints() {
@@ -61,29 +43,5 @@ public class Customer {
             totalAmount += thisAmount;
         }
         return totalAmount;
-    }
-
-    public String htmlStatement() {
-        return htmlHeader() + htmlBody() + htmlFooter();
-    }
-
-    private String htmlFooter() {
-        return "Amount owed is <b>" + getTotalAmount() + "</b><br/>" +
-                "You earned <b>" + getTotalFrequentRenterPoints()
-                + "</b> frequent renter points";
-    }
-
-    private String htmlBody() {
-        String body = "";
-        body += "<ul>";
-        for (Rental rental : rentals) {
-            body +=  "<li>" + rental.getMovie().getTitle() + "&nbsp;" + rental.amount() + "</li>";
-        }
-        body += "</ul>";
-        return body;
-    }
-
-    private String htmlHeader() {
-        return "<h1>Rental Record for <b>" + name + "</b></h1></br>";
     }
 }
